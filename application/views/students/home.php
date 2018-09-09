@@ -10,7 +10,7 @@
 <?php @include_once 'templates/menuWidget.php';   ?>
     
 <?php if(isset($widgets) && is_array($widgets)):?> 
-<div class="container" style="margin-top:50px">
+<div class="" style="margin-top:50px">
 <?php foreach($widgets as $item) {include_once "templates/$item.php";};?> 
 </div>
 <?php endif; ?>    

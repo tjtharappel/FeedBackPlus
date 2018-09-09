@@ -69,7 +69,7 @@ class Welcome extends CI_Controller
             $student->email = $this->input->post('email');
             $student->mobile = $this->input->post('mobile');
             $student->courses_id = $this->input->post('courseddl');
-            $student->yearofjoin = $this->input->post('year');
+            $student->academics_id = $this->input->post('year');
             $student->address = $this->input->post('address');
             $student->gender = $this->input->post('gender');
             $studentId = $this->input->post('studentId');

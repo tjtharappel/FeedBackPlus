@@ -7,6 +7,7 @@
   <script src="<?php echo getSiteFrontendAsset("js/bootstrap.min.js");?>"></script>
   <script src="<?php echo getSiteFrontendAsset('js/jquery.dataTables.min.js')?>"></script>
   <script src="<?php echo getSiteFrontendAsset('js/jquery-confirm.min.js')?>"></script>
+  <script src="<?php echo getSiteFrontendAsset('js/jquery.barrating.min.js')?>"></script>
 <script>
   $(function () {
   $('[data-toggle="tooltip"]').tooltip()

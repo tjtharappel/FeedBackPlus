@@ -17,12 +17,12 @@
                         </div>
                         <div class="form-group">
                             <label for="exampleInputEmail1">Email</label>
-                            <input type="email" class="form-control" name="email" aria-describedby="emailHelp" placeholder="Enter your email" required="required" id="email"
+                            <input type="email" class="form-control" name="email" aria-describedby="emailHelp" placeholder="Enter your email" required="required" id="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
                             value="<?=($student->email)??''?>"/>
                         </div>
                         <div class="form-group">
                                 <label for="exampleInputEmail1">Mobile</label>
-                                <input type="text" class="form-control" name="mobile" aria-describedby="emailHelp" placeholder="Enter your mobile number" required="required" id="mobile"
+                                <input type="text" class="form-control" name="mobile" aria-describedby="emailHelp" placeholder="Enter your mobile number" required="required" id="mobile" pattern="^([0|\+[0-9]{1,5})?([6-9][0-9]{9})$" title="please provide a valid indian mobile number"
                                 value="<?=($student->mobile)??''?>"/>
                             </div>
                         <?php require_once ('dept_course_ddl.php');?>
@@ -32,7 +32,7 @@
                             </select>
                         <div class="form-group">
                             <label for="exampleInputPassword1">Password</label>
-                            <input type="password" class="form-control" name="password" placeholder="Password" required="required" id="password" />
+                            <input type="password" class="form-control" name="password" placeholder="Password" required="required" id="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"/>
                         </div>
                         
                         <div class="form-group">
@@ -57,3 +57,26 @@
                 </form>
   </div>
 </div>
+<script>
+var inputs = document.querySelectorAll('input, textarea','select');
+for(var i=0;i<inputs.length;i++) {
+ inputs[i].addEventListener('blur', function(){
+   if(!this.checkValidity()) {
+     this.classList.add('is-invalid');
+     if(this.type=="file")
+     { 
+         let element = document.getElementById('profile');
+         element.classList.add('is-invalid');
+     }  
+   } else {
+     this.classList.remove('is-invalid');
+     if(this.type=="file")
+     { 
+         let element = document.getElementById('profile');
+         element.classList.remove('is-invalid');
+     }
+   }
+
+ }); 
+}
+</script>

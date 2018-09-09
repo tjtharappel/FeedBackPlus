@@ -47,4 +47,5 @@ class Base_Model extends CI_Model
         $assignment->subjects_id = $subjectId;
         R::store($assignment);
     }
+    
 }

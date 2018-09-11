@@ -41,6 +41,7 @@ $('#coursedetails').submit(function(e)
      $('#courseddl').prop('disabled', 'disabled');
      $('#departmentddl').prop('disabled', 'disabled');
      $('#semesterddl').prop('disabled', 'disabled');
+     $('#sub1').prop('disabled','disabled');
 })
 $('#unlock').click(function(){
     $('#courseddl').prop('disabled', false);
@@ -56,6 +57,7 @@ $('#unlock').click(function(){
       </div>
     </div>
     </div>`);
+    $('#sub1').prop('disabled',false);
 });
 const ChooseTeacher = function (e) {
     id =  $(e).attr('data-id');

@@ -70,6 +70,9 @@ $route['admin/academic/create'] = 'academic/create';
 $route['admin/students/approval']='admin/StudentsApproval';
 $route['admin/students/approved'] ='admin/studentsApproved';
 $route['admin/approve-teachers'] = 'registration/teacherloginapproval';
+$route['admin/feedbacksummary'] ="feedback/feedbacksummary";
+$route['admin/department/rating/(:num)'] = "admin/rating/$1";
+$route['admin/teacher/rating/(:num)'] = "admin/teacherRating/$1";
 $route['student/registration']= 'welcome/studentRegistration';
 $route['student/add'] ='welcome/addStudent';
 

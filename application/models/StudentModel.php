@@ -28,5 +28,15 @@ class StudentModel extends CI_Model
         $sem = $sem + ( ($datedefer->m <6)? 0:1);
         return R::findAll('subjects',"semester = ? and courses_id = ?",[$sem,$batch->courses_id]);
     }
+    public static function getStudentBatchDetails(int $studentId){
 
+        $student = R::load('students',$studentId);
+        $batchInfo = $student->academics;
+        return $batchInfo;
+    }
+    public static function getStudentInfoByLoginId(int $loginId){
+
+        $student = R::findOne('students',"login_id = ?",[$loginId]);
+        return $student;
+    }
 }

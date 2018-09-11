@@ -5,7 +5,7 @@ class subjectModel extends CI_Model
 {
     public static function getSubjectById(int $subjectId)
     {
-        return R::findOne('subjects',$subjectId);
+        return R::load('subjects',$subjectId);
     }
     public static function isSubjectExist(int $courseId,string $subjectCode,string $subjectName)
     {

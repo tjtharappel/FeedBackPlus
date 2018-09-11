@@ -6,10 +6,11 @@
          <div class="btn-group">
             <button onClick="window.location.href='<?= site_url('hod/academic');?>'" type="button" class="btn btn-sm btn-outline-primary" data-toggle="tooltip" data-placement="top" title="Assign subjects To Teachers">Assign Teachers</button>
          </div>
-         <div class="btn-group">
-            <button onClick="window.location.href='<?= site_url('admin/college-department');?>'" type="button" class="btn btn-sm btn-outline-primary" data-toggle="tooltip" data-placement="top" title="feedback">FeedBack</button>
-         </div>
+         
          <?php endif;?>
+         <div class="btn-group">
+            <button onClick="window.location.href='<?=site_url('teacher/showfeedback');?>'" type="button" class="btn btn-sm btn-outline-primary" data-toggle="tooltip" data-placement="top" title="feedback">FeedBack</button>
+         </div>
       </div>
    </div>
 </div>

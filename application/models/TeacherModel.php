@@ -96,4 +96,11 @@ class TeacherModel extends CI_Model
         $teacher->status = "approved";
         R::store($teacher);
     }
+    public static function getTeacherBySubject(int $subjectId,int $academics_id) {
+        
+        $teacher = null;
+        $assignedSubjectTeacherInfo = R::findOne('assignedsubjects',"subjects_id = ? and academics_id = ?",[$subjectId,$academics_id]);
+        $teacher = $assignedSubjectTeacherInfo->teachers;
+        return $teacher;
+    }
 }

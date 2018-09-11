@@ -54,22 +54,23 @@ const ChooseTeacher = function (e) {
 }
 const assign = function (e) {
     teacherId = $(e).attr('data-id');
-    console.log(teacherId);
+    //console.log(teacherId);
     subjectId ='subject'+$('#state').val();
     $("select[name="+subjectId+"]").append($("<option />").val(teacherId).text($(e).attr('data-name')));
     $("select[name="+subjectId+"] option:last-child").attr('selected', 'selected');
-    console.log($("select[name="+subjectId+"]").attr('data-subjectid'));
+    //console.log($("select[name="+subjectId+"]").attr('data-subjectid'));
 }
 let send = function (e) 
 {
 
     $('.pair').each(function(i, obj) {
-        let teacherId = $("[name= subject"+(i+1)+"] option:selected").val();
+        
+        let teacherId = $(obj).find(":selected").val();
+        console.log(teacherId);
         let subjectId = $(obj).attr('data-subjectid');
         //let deptId = $('#departmentddl option:selected').val();
         //let courseId = $('#courseddl option:selected').val();
         let batchId = $('#batchddl option:selected').val();
-        console.log(batchId);
         $.post('<?php echo site_url("ajax/assignsubjectstoteachers");?>',
         {
             batchId:batchId,

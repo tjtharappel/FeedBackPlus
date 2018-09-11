@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="<?php echo getSiteFrontendAsset("css/jquery.dataTables.min.css");?>">
   <link rel="stylesheet" href="<?php echo getSiteFrontendAsset("css/jquery-confirm.min.css");?>">
   <link rel="stylesheet" href="<?php echo getSiteFrontendAsset("css/font-awesome.min.css");?>">
+  <link rel="stylesheet" href="<?php echo getSiteFrontendAsset("css/fontawesome-stars.css");?>">
   <link rel="icon" href="<?= getSiteFrontendAsset('Images/i1.ico')?>">
   <title> FeedBackPlus :: <?=($title)??"Student FeedBack System :: Teacher Rating System"?></title>
 </head>

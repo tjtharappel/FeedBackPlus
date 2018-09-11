@@ -60,4 +60,19 @@ class Admin extends CI_Controller
         $this->session->sess_destroy();
         redirect(site_url('Welcome'));
     }
+    public function rating($departmentId)
+    {
+        $data['title'] = (R::load('departments',$departmentId))->name ." Department";
+        $data['widgets'] = ['departmentTeachersRating'];
+        $data['teachers'] = $this->db->query("call getTeacherRatingByDept($departmentId)")->result();
+        $this->load->view('admin/dashboard',$data);
+    }
+    public function teacherRating($teacherId)
+    {
+        $data['title'] = (R::load('teachers',$teacherId))->name . " Rating "; 
+        $data['widgets'] = ['teacherrating'];
+        $data['scripts'] = ['teacherrating'];
+        $data['teachers'] = $this->db->query("call getTeacherRatingById($teacherId)")->result();
+        $this->load->view('admin/dashboard',$data);
+    }
 }

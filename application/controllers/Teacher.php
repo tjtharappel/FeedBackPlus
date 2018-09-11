@@ -44,7 +44,7 @@ class Teacher extends CI_Controller
         $gender = $this->input->post('gender');
         $deptId= $this->input->post('deptId');
 
-        $teacher = new TeacherModel($name,$email,$mobile,$password,$address,$dpurl,$gender,$deptId,1);
+        $teacher = new TeacherModel($name,$email,$mobile,$password,$address,$dpurl,$gender,$deptId,'approved');
         $teacher->id = $this->input->post('teacherId'); 
         if ($_FILES['dpurl']) {
             $uploadSummary = fileUpload('dpurl', 'teachers/profilepic/');
@@ -72,5 +72,14 @@ class Teacher extends CI_Controller
         $data['widgets'] = ['teacherprofile'];
         $data['scripts'] = ['teachers'];
         $this->load->view('admin/dashboard',$data);
+    }
+    public function showFeedBack()
+    {
+        $teacherId = (R::findOne('teachers','login_id = ?',[$this->session->userid]))->id;
+        $data['title'] = (R::load('teachers',$teacherId))->name . " Rating "; 
+        $data['widgets'] = ['teacherrating'];
+        $data['scripts'] = ['teacherrating'];
+        $data['teachers'] = $this->db->query("call getTeacherRatingById($teacherId)")->result();
+        $this->load->view('teacher/home',$data);
     }
 }

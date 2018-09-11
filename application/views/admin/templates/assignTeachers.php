@@ -18,7 +18,7 @@
          <select id='semesterddl' name='semester' class="form-control" style="width:12rem;margin-right:10px" required>
             <option value>SELECT</option>
          </select>
-         <button type="submit" class="btn btn-primary" style="margin-right:10px">Lock <i class="fa fa-lock"> </i></select>
+         <button type="submit" class="btn btn-primary" id="sub1" style="margin-right:10px">Lock <i class="fa fa-lock"> </i></select>
          <button type="reset" id="unlock" class="btn btn-success">Unlock <i class="fa fa-unlock "> </i></select>
     </form>
    </div>

@@ -65,6 +65,7 @@ $route['admin/department/(:num)/courses/new-course'] = 'courses/create/$1';
 $route['admin/course/(:num)/edit'] = 'courses/edit/$1';
 $route['admin/course/(:num)/subjects'] = 'subjects/index/$1';
 $route['admin/course/(:num)/subjects/new-subject'] ='subjects/create/$1';
+$route['admin/subject/edit/(:num)'] = 'subjects/edit/$1';
 $route['admin/academic/start'] = 'academic/index';
 $route['admin/academic/create'] = 'academic/create';
 $route['admin/students/approval']='admin/StudentsApproval';

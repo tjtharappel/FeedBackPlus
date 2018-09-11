@@ -10,3 +10,11 @@ const approve = function (e) {
                 location.reload();
     });
 }
+
+const removesubject = function (e) {
+    
+    id = $(e).attr('data-id');
+    $.post("<?php site_url('student/remove')?>",{Id:id}).done(function (){
+        //location.reload();
+    });
+}

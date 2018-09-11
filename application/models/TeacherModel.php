@@ -45,12 +45,11 @@ class TeacherModel extends CI_Model
         $login->username = $teacher->email;
         $login->password = generate_password($this->password);
         $login->role = 'teacher';
-        $login->ownTeachersList[] = $teacher;
         R::store($login);
         
-        $dept = R::load('departments', $this->deptId);
-        $dept->ownTeachersList[]=$teacher;
-        R::store($dept);
+        $teacher->login_id = $login->id;
+        $teacher->departments_id = $this->deptId;
+        R::store($teacher);
     }
     public function update()
     {

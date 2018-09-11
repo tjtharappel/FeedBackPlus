@@ -38,8 +38,8 @@
                             <label for="exampleInputFile">Examination Type</label>
                             <div class="form-check">
                                 <label class="form-check-label"></label>
-                                <input type="radio" class="form-check-input" name="pattern"  value="Theory" <?=(isset($subject) && $subject->pattern== 'Theory')?'checked':'';?> required />Theory<br />
-                                 <input type="radio" class="form-check-input" name="pattern"  value="Pratical"  <?=(isset($subject) && $subject->pattern== 'Pratical')?'checked':'';?> required/>Pratical
+                                <input type="radio" class="form-check-input" name="pattern"  value="Theory" <?=(isset($subject) && $subject->pattern == 'Theory')?'checked=checked':'';?> required />Theory<br />
+                                 <input type="radio" class="form-check-input" name="pattern"  value="Pratical"  <?=(isset($subject) && $subject->pattern == 'Pratical')?'checked=checked':'';?> required/>Pratical
                             </div>
                             <input type="hidden" id="courseId" name="courseId" value="<?=($course->id)??''?>"/>
                             <input type ="hidden" id="subjectId" name="subjectId" value="<?php if(isset($subject)) echo $subject->id;?>" />

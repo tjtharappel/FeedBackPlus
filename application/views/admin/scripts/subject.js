@@ -57,3 +57,16 @@ $('#dept').submit(function(e)
         
      });
 })
+const removesubject = function (e) {
+
+    let subjectId = $(e).attr('data-id');
+    $.post("<?=site_url('subjects/remove');?>",{Id:subjectId}).done(function(e){
+       location.reload();
+    });
+};
+const editsubject = function(e) {
+
+    let subjectId = $(e).attr('data-id');
+    location.href=`<?=site_url('admin/subject/edit');?>/${subjectId}`;
+    
+}

@@ -27,7 +27,7 @@
             <td><?=((R::load('departments',(R::load('courses',$student->courses_id))->departments_id))->name)??"N/A";?></td>
             <td><?=((R::load('courses',$student->courses_id)))->name??"N/A";?></td>
             <td>
-            <button onclick="removesubject(this)" class="btn btn-secondary btn-sm" data-id="<?=$student->id;?>">Remove <i class="fa fa-trash"> </i></button>
+            <button onclick="window.location.href='<?=site_url('student/Remove').'/'.$student->id;?>'" class="btn btn-secondary btn-sm" data-id="<?=$student->id;?>">Remove <i class="fa fa-trash"> </i></button>
             <button onClick= "approve(this)" class="btn btn-secondary btn-sm" data-id="<?=$student->id;?>"> Approve <i class="fa fa-check" aria-hidden="true"></i></button>
             </td>
             </tr>

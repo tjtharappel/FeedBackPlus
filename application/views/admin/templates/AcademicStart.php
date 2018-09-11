@@ -17,7 +17,7 @@
             <?php endforeach;?>
          </select>
          <label for="pwd" style="margin-left:10px">Batch Strength:</label>
-         <input type="number" required="required" class="form-control" name="strength" id="strength" />
+         <input type="number" min=1 required="required" class="form-control" name="strength" id="strength" />
          <label for="pwd" style="margin-left:10px;margin-right:5px">Starting Date:</label>
          <input type="date" required="required" class="form-control" name="date" id="date"/>
          <button type="submit" style="margin-left:10px" class="btn btn-primary ">Start</button>

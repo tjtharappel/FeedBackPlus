@@ -44,7 +44,7 @@
         <tfooter>
         <tr>
         
-        <td colspan=2 class="text-right">Average calculated from <?php echo ((count($data))/3)??"0";?> Rating</td>
+        <td colspan=2 class="text-right">Average calculated from <?php echo ((count($data)))??"0";?> Rating</td>
         </tr>
         </tfooter>
     </table>

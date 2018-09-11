@@ -36,4 +36,10 @@ class Student extends CI_Controller
         $data['renderStatus'] = (FeedBackModel::isAlreadyEnterd($academicsId,$data['teacher']->id,$studentId,$data['subject']->id)) ?false:true;
         $this->load->view('students/templates/SubjectFeedBackForm',$data);
     }
+    public function Remove($id)
+    {
+        //$id = $this->input->post('Id');
+        R::trashBatch('students',[$id]);
+        redirect(site_url('admin/students/approval'));
+    }
 }

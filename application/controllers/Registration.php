@@ -43,6 +43,7 @@ class Registration extends CI_Controller
                 $uploadStatus = fileUpload('dpurl', 'teachers/profilepic/');
                 $teacher->dpurl = $uploadStatus['filename'];
             }
+            $teacher->login_id=$login->id;
             $teacher->status = 'notapproved';
             R::store($teacher);
             $data['message'] = "you can login after admin verification";

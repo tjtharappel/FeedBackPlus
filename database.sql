@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Sep 11, 2018 at 12:56 AM
+-- Generation Time: Sep 12, 2018 at 04:21 PM
 -- Server version: 5.7.19
 -- PHP Version: 7.1.9
 
@@ -53,19 +53,23 @@ DROP TABLE IF EXISTS `academics`;
 CREATE TABLE IF NOT EXISTS `academics` (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `courses_id` int(11) UNSIGNED DEFAULT NULL,
-  `strength` int(11) UNSIGNED DEFAULT NULL,
+  `strength` double DEFAULT NULL,
   `date` varchar(191) COLLATE utf8mb4_unicode_520_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `index_foreignkey_academics_courses` (`courses_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
 --
+-- Truncate table before insert `academics`
+--
+
+TRUNCATE TABLE `academics`;
+--
 -- Dumping data for table `academics`
 --
 
 INSERT INTO `academics` (`id`, `courses_id`, `strength`, `date`) VALUES
-(1, 1, 50, '2018-03-14'),
-(2, 2, 50, '2018-08-01');
+(2, NULL, 50, '2018-09-11');
 
 -- --------------------------------------------------------
 
@@ -83,24 +87,19 @@ CREATE TABLE IF NOT EXISTS `assignedsubjects` (
   KEY `index_foreignkey_assignedsubjects_academics` (`academics_id`),
   KEY `index_foreignkey_assignedsubjects_teachers` (`teachers_id`),
   KEY `index_foreignkey_assignedsubjects_subjects` (`subjects_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
+--
+-- Truncate table before insert `assignedsubjects`
+--
+
+TRUNCATE TABLE `assignedsubjects`;
 --
 -- Dumping data for table `assignedsubjects`
 --
 
 INSERT INTO `assignedsubjects` (`id`, `academics_id`, `teachers_id`, `subjects_id`) VALUES
-(1, 1, 62, 5),
-(2, 1, 68, 6),
-(3, 1, 64, 3),
-(4, 1, 66, 2),
-(5, 1, 67, 1),
-(6, 1, 64, 4),
-(7, 2, 64, 12),
-(8, 2, 65, 11),
-(9, 2, 67, 8),
-(10, 2, 66, 9),
-(11, 2, 65, 10);
+(2, 2, 3, NULL);
 
 -- --------------------------------------------------------
 
@@ -118,18 +117,33 @@ CREATE TABLE IF NOT EXISTS `courses` (
   `pattern` varchar(191) COLLATE utf8mb4_unicode_520_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `index_foreignkey_courses_departments` (`departments_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
+--
+-- Truncate table before insert `courses`
+--
+
+TRUNCATE TABLE `courses`;
 --
 -- Dumping data for table `courses`
 --
 
 INSERT INTO `courses` (`id`, `departments_id`, `name`, `duration`, `type`, `pattern`) VALUES
-(1, 20, 'BCA', 3, 'UG', 'semester'),
-(2, 20, 'MCA', 3, 'PG', 'semester'),
-(3, 23, 'B.Sc Mathematics', 3, 'UG', 'semester'),
-(4, 23, 'M.Sc Mathematics', 2, 'PG', 'semester'),
-(5, NULL, 'B.Sc Botany', 3, 'UG', 'semester');
+(3, NULL, 'MCA', 3, 'PG', 'semester');
+
+--
+-- Triggers `courses`
+--
+DROP TRIGGER IF EXISTS `delete_course`;
+DELIMITER $$
+CREATE TRIGGER `delete_course` BEFORE DELETE ON `courses` FOR EACH ROW BEGIN
+delete from students where students.courses_id = old.id;
+delete from feedbackrecords where courses_id = old.id;
+delete from subjects where courses_id = old.id;
+delete from academics where courses_id = old.id;
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -142,16 +156,34 @@ CREATE TABLE IF NOT EXISTS `departments` (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` varchar(191) COLLATE utf8mb4_unicode_520_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
+--
+-- Truncate table before insert `departments`
+--
+
+TRUNCATE TABLE `departments`;
 --
 -- Dumping data for table `departments`
 --
 
 INSERT INTO `departments` (`id`, `name`) VALUES
-(2, 'Electronics'),
-(20, 'Computer Science'),
-(23, 'Mathematics');
+(5, 'Computer Science'),
+(6, 'Mathematics'),
+(7, 'English'),
+(8, 'Microbiology');
+
+--
+-- Triggers `departments`
+--
+DROP TRIGGER IF EXISTS `delete_departments`;
+DELIMITER $$
+CREATE TRIGGER `delete_departments` BEFORE DELETE ON `departments` FOR EACH ROW BEGIN
+delete from teachers where departments_id = old.id;
+delete from courses where departments_id = old.id;
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -180,23 +212,13 @@ CREATE TABLE IF NOT EXISTS `feedbackrecords` (
   KEY `index_foreignkey_feedbackrecodes_teachers` (`teachers_id`),
   KEY `index_foreignkey_feedbackrecodes_students` (`students_id`),
   KEY `index_foreignkey_feedbackrecodes_subjects` (`subjects_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
 --
--- Dumping data for table `feedbackrecords`
+-- Truncate table before insert `feedbackrecords`
 --
 
-INSERT INTO `feedbackrecords` (`id`, `academics_id`, `departments_id`, `courses_id`, `teachers_id`, `students_id`, `subjects_id`, `communicationrating`, `subjectknowledgerating`, `classroominteractionrating`, `remarks`, `feedbackdate`) VALUES
-(14, 1, 20, 1, 62, 1, 1, 5, 5, 5, 'good', '2018-09-10 00:00:00'),
-(15, 1, 20, 1, 64, 1, 2, 4, 4, 4, '', '2018-09-10 00:00:00'),
-(16, 1, 20, 1, 65, 1, 3, 3, 4, 4, '', '2018-09-10 00:00:00'),
-(17, 1, 20, 1, 62, 2, 1, 5, 5, 5, '', '2018-09-10 00:00:00'),
-(18, 1, 20, 1, 64, 2, 2, 5, 5, 5, '', '2018-09-10 00:00:00'),
-(19, 1, 20, 1, 65, 2, 3, 5, 5, 5, '', '2018-09-10 00:00:00'),
-(20, 1, 20, 1, 65, 2, 4, 5, 5, 5, '', '2018-09-10 00:00:00'),
-(21, 1, 20, 1, 69, 2, 5, 5, 5, 5, '', '2018-09-10 00:00:00'),
-(22, 1, 20, 1, 68, 2, 6, 5, 5, 5, '', '2018-09-10 00:00:00');
-
+TRUNCATE TABLE `feedbackrecords`;
 -- --------------------------------------------------------
 
 --
@@ -211,15 +233,19 @@ CREATE TABLE IF NOT EXISTS `hods` (
   PRIMARY KEY (`id`),
   KEY `index_foreignkey_hods_departments` (`departments_id`),
   KEY `index_foreignkey_hods_teachers` (`teachers_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
+--
+-- Truncate table before insert `hods`
+--
+
+TRUNCATE TABLE `hods`;
 --
 -- Dumping data for table `hods`
 --
 
 INSERT INTO `hods` (`id`, `departments_id`, `teachers_id`) VALUES
-(5, 20, 64),
-(6, 23, 67);
+(1, 5, 7);
 
 -- --------------------------------------------------------
 
@@ -234,24 +260,26 @@ CREATE TABLE IF NOT EXISTS `login` (
   `password` varchar(191) COLLATE utf8mb4_unicode_520_ci DEFAULT NULL,
   `role` varchar(191) COLLATE utf8mb4_unicode_520_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
+--
+-- Truncate table before insert `login`
+--
+
+TRUNCATE TABLE `login`;
 --
 -- Dumping data for table `login`
 --
 
 INSERT INTO `login` (`id`, `username`, `password`, `role`) VALUES
 (1, 'admin', '15fa81f9513ec9a57a4df875322b80f5', 'admin'),
-(68, 'susangeorge99@gmail.com', '4832f3f2be7c29fb3d2b33c474e87bc4', 'teacher'),
-(69, 'tjtharappel@gmail.com', '7ae52fbaac51496a022d5c66acf0e8ab', 'teacher'),
-(70, 'binuthomas@gmail.com', 'c4408458f8b30cfea2973f9cd78bbdb3', 'teacher'),
-(71, 'bijuxavior985@yahoo.co.in', 'be4945335804f03379f6341b5c3b1520', 'teacher'),
-(72, 'asha99@gmail.com', '394438d4e8fa600b3fea3262ddc31b0d', 'teacher'),
-(73, 'amitha@outlook.com', '540c605eff92269a738e12743b93cbc1', 'teacher'),
-(74, 'sasissasi@live.com', '791fb3e2c47016b86aa25568d02432d2', 'teacher'),
-(75, 'merinmarythomas@gmail.com', '748519533748d0bb5ac1335587150f56', 'teacher'),
-(78, 'merilynjames@yahoo.com', '7ae52fbaac51496a022d5c66acf0e8ab', 'student'),
-(79, 'kaniskarthika@gmail.com', '7ae52fbaac51496a022d5c66acf0e8ab', 'student');
+(4, 'thomasmuller@muller.com', 'b03842f3a4955934bbe85edc8799083a', 'teacher'),
+(5, 'asha99@gmail.com', 'b03842f3a4955934bbe85edc8799083a', 'teacher'),
+(6, 'tjtharappel@gmail.com', 'b03842f3a4955934bbe85edc8799083a', 'student'),
+(7, 'susangeorge99@gmail.com', 'b03842f3a4955934bbe85edc8799083a', 'teacher'),
+(8, 'josejamestharappel@gmail.com', 'b03842f3a4955934bbe85edc8799083a', 'teacher'),
+(9, 'binuthomas@gmail.com', 'b03842f3a4955934bbe85edc8799083a', 'teacher'),
+(10, 'snehasadasivan@yahoo.com', 'b03842f3a4955934bbe85edc8799083a', 'teacher');
 
 -- --------------------------------------------------------
 
@@ -276,15 +304,25 @@ CREATE TABLE IF NOT EXISTS `students` (
   KEY `index_foreignkey_students_courses` (`courses_id`),
   KEY `index_foreignkey_students_login` (`login_id`),
   KEY `index_foreignkey_students_academics` (`academics_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
 --
--- Dumping data for table `students`
+-- Truncate table before insert `students`
 --
 
-INSERT INTO `students` (`id`, `name`, `email`, `mobile`, `courses_id`, `address`, `gender`, `dpurl`, `status`, `login_id`, `academics_id`) VALUES
-(1, 'Merilyn James', 'merilynjames@yahoo.com', 8574122574, 1, 'Tharappel (H),Thomas Villa\r\nAthirampuzha P.O,\r\nKottayam\r\npin: 686562', 'female', 'f23aba329438e0b0c702078efb0574db.jpg', 'approved', 78, 1),
-(2, 'Kani S Karthika', 'kaniskarthika@gmail.com', 8822448833, 1, 'No', 'female', '156866e9d5bb05a4d1172e1e356865df.jpg', 'approved', 79, 1);
+TRUNCATE TABLE `students`;
+--
+-- Triggers `students`
+--
+DROP TRIGGER IF EXISTS `delete_students`;
+DELIMITER $$
+CREATE TRIGGER `delete_students` BEFORE DELETE ON `students` FOR EACH ROW BEGIN
+DELETE from feedbackrecords WHERE students_id =old.id;
+DELETE FROM login
+    WHERE login.id = old.login_id;
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -303,25 +341,24 @@ CREATE TABLE IF NOT EXISTS `subjects` (
   `examtype` varchar(191) COLLATE utf8mb4_unicode_520_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `index_foreignkey_subjects_courses` (`courses_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
 --
--- Dumping data for table `subjects`
+-- Truncate table before insert `subjects`
 --
 
-INSERT INTO `subjects` (`id`, `courses_id`, `code`, `name`, `semester`, `type`, `examtype`) VALUES
-(1, 1, 'COM101', 'Communicative English', 1, 'Complementary', 'Theory'),
-(2, 1, 'BCS101', 'Introduction to IT', 1, 'Core', 'Theory'),
-(3, 1, 'BCS102', 'Programming In C', 1, 'Core', 'Theory'),
-(4, 1, 'BCS103', 'Programming In C (Lab)', 1, 'Core', 'Pratical'),
-(5, 1, 'COM102', 'Mathematics', 1, 'Complementary', 'Theory'),
-(6, 1, 'COM103', 'Statistics', 1, 'Complementary', 'Theory'),
-(7, 3, 'BMA 101', 'Linear Algebra', 1, 'Core', 'Theory'),
-(8, 2, 'MCS1001', 'Discrete Mathematics', 1, 'Core', 'Theory'),
-(9, 2, 'MCS1002', 'Advanced Data Structure ', 1, 'Core', 'Theory'),
-(10, 2, 'MCS1003', 'Programming in Prolog', 1, 'Core', 'Theory'),
-(11, 2, 'MCS1004', 'Programming in Prolog (Lab)', 1, 'Core', 'Pratical'),
-(12, 2, 'MCS1005', 'Computer Organization', 1, 'Core', 'Theory');
+TRUNCATE TABLE `subjects`;
+--
+-- Triggers `subjects`
+--
+DROP TRIGGER IF EXISTS `delete_subjects`;
+DELIMITER $$
+CREATE TRIGGER `delete_subjects` BEFORE DELETE ON `subjects` FOR EACH ROW BEGIN
+delete from feedbackrecords where subjects_id = old.id;
+delete from assignedsubjects where subjects_id = old.id;
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -344,20 +381,37 @@ CREATE TABLE IF NOT EXISTS `teachers` (
   PRIMARY KEY (`id`),
   KEY `index_foreignkey_teachers_login` (`login_id`),
   KEY `index_foreignkey_teachers_departments` (`departments_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=70 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
+--
+-- Truncate table before insert `teachers`
+--
+
+TRUNCATE TABLE `teachers`;
 --
 -- Dumping data for table `teachers`
 --
 
 INSERT INTO `teachers` (`id`, `name`, `email`, `mobile`, `gender`, `address`, `dpurl`, `status`, `login_id`, `departments_id`) VALUES
-(62, 'Sneha Susan George', 'susangeorge99@gmail.com', 9856231245, 'female', 'noting noting noting', '78bea60f42bf72a369edd515a7c94376.jpg', 'approved', 68, 20),
-(64, 'Binu Thomas', 'binuthomas@gmail.com', 7856322145, 'female', 'adsfadsfadsfadsfdas', '58acfe552ef33244f646f6d4bb178250.jpg', 'approved', 70, 20),
-(65, 'Biju Xavior', 'bijuxavior985@yahoo.co.in', 8845122356, 'male', 'Thalayolaparabu', 'c07ab402cdfd6f548ff67503ab957e78.jpg', 'approved', 71, 20),
-(66, 'Asha Laskshmi', 'asha99@gmail.com', 4859535689, 'female', 'Ettumanoor', '6027189398cb1e838462fe8a10f8210b.jpg', 'approved', 72, 20),
-(67, 'Amitha Saji', 'amitha@outlook.com', 5889563212, 'female', 'Palathra', 'c3cdb70076f6d34c92c1c3b7e39422fb.jpg', 'approved', 73, 23),
-(68, 'Sasi S Sasi', 'sasissasi@live.com', 2222222222, 'male', 'Arivipuram', '487d546bb66b5e6725170a5359fccd4d.jpg', 'approved', 74, 23),
-(69, 'Merin Mary Thomas', 'merinmarythomas@gmail.com', 7854122365, 'female', 'Bonakadu', '03f591284fd6bf4eb30cfe45dbbcd63e.jpg', 'approved', 75, 23);
+(3, 'Thomas Muller', 'thomasmuller@muller.com', 8891847029, 'male', 'Tharappel (H),Thomas Villa,\r\nAthirampuzha P.O,\r\nKottayam\r\npin:686562', '19fcf2047cfabad26207ebb6ecc56eac.jpg', 'approved', 4, NULL),
+(5, 'Sneha Susan George', 'susangeorge99@gmail.com', 7755776611, 'female', 'Hello', 'f9f1136454c56a8efca2b93009d71c70.jpg', 'approved', 7, NULL),
+(6, 'Jose James', 'josejamestharappel@gmail.com', 9988774455, 'male', 'hesoyam0481', 'f57fcacf059f78e6c28a8546e00cb237.jpg', 'approved', 8, NULL),
+(7, 'Binu Thomas', 'binuthomas@gmail.com', 9988556610, 'female', 'Angels ladies hostel, Near sriram mens PG,\r\n2nd cross street sri sai nagar,\r\nthoralpakkam, chennai pin:600097', '3aa9a8e24b45fd146cf1d6b79631bdea.jpg', 'approved', 9, 5),
+(8, 'Sneha Sadasivan', 'snehasadasivan@yahoo.com', 7744557710, 'female', 'Nothing Nothing', 'cfbe0ee90feddaaadcd50de40cf476f1.jpg', 'approved', 10, 5);
+
+--
+-- Triggers `teachers`
+--
+DROP TRIGGER IF EXISTS `delete_teachers`;
+DELIMITER $$
+CREATE TRIGGER `delete_teachers` BEFORE DELETE ON `teachers` FOR EACH ROW BEGIN
+delete from feedbackrecords where teachers_id=old.id;
+delete from login where id =old.login_id;
+delete from assignedsubjects where teachers_id=old.id;
+delete from hods where teachers_id=old.id;
+END
+$$
+DELIMITER ;
 
 --
 -- Constraints for dumped tables

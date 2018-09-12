@@ -15,7 +15,7 @@ class Login extends CI_Model
         $this->password = generate_password($password);
     }
     public function fetch() {
-       $login = R::findOne('login'," username ='$this->username' AND password = '$this->password'");
+       $login = R::findLast('login'," username ='$this->username' AND password = '$this->password'");
        if (is_object($login)) {
            $this->id = $login->id;
            $this->username = $login->username;
@@ -30,7 +30,7 @@ class Login extends CI_Model
     public function isStudent(): bool {
         $status = false;
         if (!empty($this->id)) {
-            $student = R::findOne('students', "login_id = $this->id");
+            $student = R::findLast('students', "login_id = $this->id");
             if (is_object($student)) {
                 $status = (($student->status == 'approved') && ($this->role == 'student')) ? true:false;
             }

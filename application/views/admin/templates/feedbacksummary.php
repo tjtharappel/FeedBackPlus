@@ -43,8 +43,16 @@
         </tbody>
         <tfooter>
         <tr>
-        
-        <td colspan=2 class="text-right">Average calculated from <?php echo ((count($data)))??"0";?> Rating</td>
+        <td class="text-left" >Overall Rating:
+        <?php
+        $avg = ($avgC + $avgK + $avgR)/3;
+        if ($avg >3) echo '<span class="badge badge-success">Excellent</span>';
+        else if ($avg >2.5)  echo '<span class="badge badge-primary">Ok</span>';
+        else if(empty($data)) echo '<span class="badge badge-info">N/A</span>';
+        else echo '<span class="badge badge-danger">Bad</span>';
+        ?>
+        </td>
+        <td  class="text-right">Average calculated from <?php echo ((count($data)))??"0";?> Rating</td>
         </tr>
         </tfooter>
     </table>

@@ -21,7 +21,7 @@
 
                     <td><?=$teacher->subject?></td>
                     <td><?=$teacher->semester?></td>
-                    <td><?=$teacher->student?></td>
+                    <td>XXXXXXXXXX</td>
                     <td><?=$teacher->communication;?></td>
                     <td><?=$teacher->subjectknowledge;?></td>
                     <td><?=$teacher->classroom?></td>

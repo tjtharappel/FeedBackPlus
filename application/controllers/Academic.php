@@ -46,7 +46,7 @@ class Academic extends CI_Controller
     public function getSemesterDetails($batchId)
     {
         
-        $responce = Base_Model::getSemesterSubjects($batchId);
+        $responce = Base_Model::getSemesterSubjects($batchId-1);
         $data['subjects'] = $responce['subjects'];
         $data['teachers'] = Base_Model::getTeachersBy($responce['course']->departments_id);  
         $this->load->view('admin/templates/subjectAssignList',$data);  
